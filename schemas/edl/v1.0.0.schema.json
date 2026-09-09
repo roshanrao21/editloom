@@ -1,0 +1,232 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://editloom.dev/schemas/edl/v1.0.0.schema.json",
+  "title": "Editloom Edit Decision List v1.0.0",
+  "description": "The immutable, canonical render input for one Editloom preview or final render.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "edl_id",
+    "project_id",
+    "version",
+    "parent_version_id",
+    "created_at",
+    "created_by",
+    "source",
+    "output",
+    "video",
+    "captions",
+    "overlays",
+    "audio",
+    "attribution"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "edl_id": { "$ref": "#/$defs/uuid" },
+    "project_id": { "$ref": "#/$defs/uuid" },
+    "version": { "type": "integer", "minimum": 1 },
+    "parent_version_id": {
+      "anyOf": [{ "$ref": "#/$defs/uuid" }, { "type": "null" }]
+    },
+    "created_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]+)?(?:Z|[+-][0-9]{2}:[0-9]{2})$"
+    },
+    "created_by": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "id"],
+      "properties": {
+        "kind": { "enum": ["user", "system", "assistant"] },
+        "id": { "type": "string", "minLength": 1, "maxLength": 128 }
+      }
+    },
+    "source": { "$ref": "#/$defs/source" },
+    "output": { "$ref": "#/$defs/output" },
+    "video": { "$ref": "#/$defs/video" },
+    "captions": { "$ref": "#/$defs/captions" },
+    "overlays": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/overlay" }
+    },
+    "audio": { "$ref": "#/$defs/audio" },
+    "attribution": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/attribution" }
+    }
+  },
+  "$defs": {
+    "uuid": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "asset_id": { "type": "string", "pattern": "^asset_[a-zA-Z0-9_-]{6,128}$" },
+    "seconds": { "type": "number", "minimum": 0 },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["asset_id", "checksum_sha256", "timebase", "duration_seconds"],
+      "properties": {
+        "asset_id": { "$ref": "#/$defs/asset_id" },
+        "checksum_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "timebase": { "type": "string", "pattern": "^[1-9][0-9]*/[1-9][0-9]*$" },
+        "duration_seconds": { "type": "number", "exclusiveMinimum": 0 }
+      }
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["width", "height", "fps", "container", "video_codec", "audio_codec", "safe_area_preset"],
+      "properties": {
+        "width": { "const": 1080 },
+        "height": { "const": 1920 },
+        "fps": { "enum": [24, 25, 30] },
+        "container": { "const": "mp4" },
+        "video_codec": { "const": "h264" },
+        "audio_codec": { "const": "aac" },
+        "safe_area_preset": { "enum": ["social-vertical-v1"] }
+      }
+    },
+    "video": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["segments"],
+      "properties": {
+        "segments": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/video_segment" }
+        }
+      }
+    },
+    "video_segment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_in_seconds", "source_out_seconds", "reframe_keyframes"],
+      "properties": {
+        "source_in_seconds": { "$ref": "#/$defs/seconds" },
+        "source_out_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "reframe_keyframes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/reframe_keyframe" }
+        }
+      }
+    },
+    "reframe_keyframe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["at_seconds", "center_x", "center_y", "scale"],
+      "properties": {
+        "at_seconds": { "$ref": "#/$defs/seconds" },
+        "center_x": { "type": "number", "minimum": 0, "maximum": 1 },
+        "center_y": { "type": "number", "minimum": 0, "maximum": 1 },
+        "scale": { "type": "number", "minimum": 1, "maximum": 4 }
+      }
+    },
+    "captions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "style_template_id", "cues"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "style_template_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "cues": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/caption_cue" }
+        }
+      }
+    },
+    "caption_cue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start_seconds", "end_seconds", "text", "words"],
+      "properties": {
+        "start_seconds": { "$ref": "#/$defs/seconds" },
+        "end_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "text": { "type": "string", "minLength": 1, "maxLength": 500 },
+        "words": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/timed_word" }
+        }
+      }
+    },
+    "timed_word": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start_seconds", "end_seconds", "text"],
+      "properties": {
+        "start_seconds": { "$ref": "#/$defs/seconds" },
+        "end_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "text": { "type": "string", "minLength": 1, "maxLength": 100 }
+      }
+    },
+    "overlay": {
+      "oneOf": [
+        { "$ref": "#/$defs/title_overlay" },
+        { "$ref": "#/$defs/broll_overlay" }
+      ]
+    },
+    "title_overlay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "start_seconds", "end_seconds", "template_id", "text"],
+      "properties": {
+        "kind": { "const": "title" },
+        "start_seconds": { "$ref": "#/$defs/seconds" },
+        "end_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "template_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "text": { "type": "string", "minLength": 1, "maxLength": 140 }
+      }
+    },
+    "broll_overlay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "start_seconds", "end_seconds", "asset_id", "fit"],
+      "properties": {
+        "kind": { "const": "broll" },
+        "start_seconds": { "$ref": "#/$defs/seconds" },
+        "end_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "asset_id": { "$ref": "#/$defs/asset_id" },
+        "fit": { "enum": ["cover", "contain"] }
+      }
+    },
+    "audio": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_gain_db", "target_lufs", "music"],
+      "properties": {
+        "source_gain_db": { "type": "number", "minimum": -24, "maximum": 24 },
+        "target_lufs": { "type": "number", "minimum": -24, "maximum": -8 },
+        "music": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/music_track" }
+        }
+      }
+    },
+    "music_track": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["asset_id", "start_seconds", "gain_db", "duck_under_speech"],
+      "properties": {
+        "asset_id": { "$ref": "#/$defs/asset_id" },
+        "start_seconds": { "$ref": "#/$defs/seconds" },
+        "gain_db": { "type": "number", "minimum": -60, "maximum": 12 },
+        "duck_under_speech": { "type": "boolean" }
+      }
+    },
+    "attribution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["asset_id", "provider", "source_url", "creator", "license"],
+      "properties": {
+        "asset_id": { "$ref": "#/$defs/asset_id" },
+        "provider": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "source_url": { "type": "string", "pattern": "^https?://[^\\s]+$" },
+        "creator": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "license": { "type": "string", "minLength": 1, "maxLength": 256 }
+      }
+    }
+  }
+}
