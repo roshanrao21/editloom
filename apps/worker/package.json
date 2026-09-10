@@ -1,0 +1,13 @@
+{
+  "name": "@editloom/worker",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "dependencies": {
+    "@editloom/config": "0.1.0"
+  },
+  "scripts": {
+    "dev": "node --watch src/worker.js",
+    "start": "node src/worker.js"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "editloom",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Editloom media-production workspace",
+  "type": "module",
+  "engines": {
+    "node": ">=18.18"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:web": "npm --workspace @editloom/web run dev",
+    "dev:api": "npm --workspace @editloom/api run dev",
+    "dev:worker": "npm --workspace @editloom/worker run dev",
+    "start:web": "npm --workspace @editloom/web run start",
+    "start:api": "npm --workspace @editloom/api run start",
+    "start:worker": "npm --workspace @editloom/worker run start --",
+    "db:up": "docker compose up -d postgres",
+    "db:down": "docker compose down",
+    "db:logs": "docker compose logs -f postgres",
+    "lint": "node scripts/lint.mjs",
+    "test": "node --test",
+    "test:db": "node --test test/postgres.integration.test.js",
+    "check": "npm run lint && npm test"
+  }
+}
