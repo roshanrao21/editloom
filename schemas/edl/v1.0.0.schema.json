@@ -81,7 +81,7 @@
       "properties": {
         "width": { "const": 1080 },
         "height": { "const": 1920 },
-        "fps": { "enum": [24, 25, 30] },
+        "fps": { "const": 30 },
         "container": { "const": "mp4" },
         "video_codec": { "const": "h264" },
         "audio_codec": { "const": "aac" },

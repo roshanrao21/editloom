@@ -1,0 +1,172 @@
+{
+  "manifest_version": "1.0.0",
+  "fixtures": [
+    {
+      "id": "talking-head-clean",
+      "profile": "Single speaker, clean studio recording",
+      "minimum_characteristics": {
+        "duration_seconds": { "minimum": 360, "maximum": 720 },
+        "video": "1080p H.264",
+        "audio": "clear English speech",
+        "content": "at least three self-contained ideas"
+      },
+      "approval": {
+        "status": "approved"
+      },
+      "provenance": {
+        "source_page_url": "https://media.ccc.de/v/lgm25-upstream-2025-83651-permacomputing-fermenting-regenerative-aesthetics",
+        "download_url": "https://cdn.media.ccc.de/events/lgm/2025/h264-sd/lgm2025-83651-eng-Permacomputing_Fermenting_Regenerative_Aesthetics_sd.mp4",
+        "creator": "Brendan Howell",
+        "publisher": "Chaos Computer Club e.V.",
+        "downloaded_at": "2026-09-13"
+      },
+      "rights": {
+        "license": "CC BY 4.0",
+        "license_url": "https://creativecommons.org/licenses/by/4.0/",
+        "attribution": "Brendan Howell, Permacomputing: Fermenting Regenerative Aesthetics, Chaos Computer Club e.V., CC BY 4.0"
+      },
+      "technical_metadata": {
+        "source_duration_seconds": 1320,
+        "fixture_range_seconds": { "start": 120, "end": 600 },
+        "container": "mp4",
+        "video_codec": "h264",
+        "audio_codec": "aac",
+        "width": 1024,
+        "height": 576,
+        "language": "English"
+      },
+      "checksum_sha256": "d5ccdc740fabd07d8d60ddcfa646c020d0f6b48cbb076df29d81ad20cab77190",
+      "expected_outcomes": {
+        "probe": "Reports duration, H.264 video, dimensions, frame rate, and audio streams.",
+        "transcription": "Produces word timestamps for clear English speech.",
+        "source_signals": "Persists speech and visual source signals.",
+        "candidate_count": { "minimum": 3, "maximum": 5 },
+        "edl_validation": "A manually authored EDL validates against v1.0.0.",
+        "preview_render": "Produces a reviewable 1080x1920 preview MP4.",
+        "final_render": "Produces a final MP4, captions, thumbnail, and render manifest."
+      }
+    },
+    {
+      "id": "talking-head-pauses",
+      "profile": "Single speaker with pauses and filler words",
+      "minimum_characteristics": {
+        "duration_seconds": { "minimum": 480, "maximum": 900 },
+        "audio": "normal room audio with deliberate pauses and verbal fillers",
+        "language": "English"
+      },
+      "approval": {
+        "status": "unavailable",
+        "reason": "No source with documented pauses and filler words has been approved. Register a reproducible source URL, documented license or testing permission, probe data, and SHA-256 checksum before enabling this media test."
+      },
+      "provenance": null,
+      "rights": null,
+      "technical_metadata": null,
+      "checksum_sha256": null,
+      "expected_outcomes": {
+        "probe": "Reports source streams and duration.",
+        "transcription": "Produces word timestamps including pauses and filler words.",
+        "source_signals": "Persists pause and filler-word ranges.",
+        "candidate_count": { "minimum": 3, "maximum": 5 },
+        "edl_validation": "Candidate EDLs validate against v1.0.0.",
+        "preview_render": "Produces a reviewable 1080x1920 preview MP4.",
+        "final_render": "Produces a final MP4, captions, thumbnail, and render manifest."
+      }
+    },
+    {
+      "id": "two-speaker-podcast",
+      "profile": "Two distinct speakers",
+      "minimum_characteristics": {
+        "duration_seconds": { "minimum": 1200, "maximum": 2700 },
+        "audio": "English dialogue with speaker turns and overlaps",
+        "speakers": 2
+      },
+      "approval": {
+        "status": "approved"
+      },
+      "provenance": {
+        "source_page_url": "https://app.media.ccc.de/v/godotfest2025-shipping-godot-from-build-to-player",
+        "download_url": "https://cdn.media.ccc.de/events/godotfest/2025/h264-sd/godotfest-25-101-eng-Shipping_Godot_From_Build_to_Player_sd.mp4",
+        "creators": ["Ben Vehling", "Paul Lawitzki", "Pablo Navarro", "Dom Harris", "Joseph Hill"],
+        "publisher": "Chaos Computer Club e.V.",
+        "downloaded_at": "2026-09-13"
+      },
+      "rights": {
+        "license": "CC BY 4.0",
+        "license_url": "https://creativecommons.org/licenses/by/4.0/",
+        "attribution": "Ben Vehling, Paul Lawitzki, Pablo Navarro, Dom Harris, and Joseph Hill, Shipping Godot: From Build to Player, Chaos Computer Club e.V., CC BY 4.0"
+      },
+      "technical_metadata": {
+        "source_duration_seconds": 3060,
+        "fixture_range_seconds": { "start": 300, "end": 1500 },
+        "container": "mp4",
+        "video_codec": "h264",
+        "audio_codec": "aac",
+        "width": 1024,
+        "height": 576,
+        "language": "English"
+      },
+      "checksum_sha256": "a13694db9ae99944083f7798214316d93d5efa3848beae674c61b6d14464dfe7",
+      "expected_outcomes": {
+        "probe": "Reports source streams and duration.",
+        "transcription": "Produces timestamped, diarized English dialogue.",
+        "source_signals": "Persists speaker-turn and overlap information.",
+        "candidate_count": { "minimum": 3, "maximum": 5 },
+        "edl_validation": "Candidate EDLs validate against v1.0.0.",
+        "preview_render": "Produces a reviewable 1080x1920 preview MP4.",
+        "final_render": "Produces a final MP4, captions, thumbnail, and render manifest."
+      }
+    },
+    {
+      "id": "camera-cut-webcam",
+      "profile": "Talking head with scene or camera changes",
+      "minimum_characteristics": {
+        "duration_seconds": { "minimum": 300, "maximum": 600 },
+        "video": "1080p or 4K with several hard cuts",
+        "audio": "speech"
+      },
+      "approval": {
+        "status": "unavailable",
+        "reason": "No source has been approved. Register a reproducible source URL, documented license or testing permission, probe data, and SHA-256 checksum before enabling this media test."
+      },
+      "provenance": null,
+      "rights": null,
+      "technical_metadata": null,
+      "checksum_sha256": null,
+      "expected_outcomes": {
+        "probe": "Reports source streams, dimensions, and duration.",
+        "transcription": "Produces word timestamps for speech.",
+        "source_signals": "Persists camera-cut and visual-signal data.",
+        "candidate_count": { "minimum": 3, "maximum": 5 },
+        "edl_validation": "Candidate EDLs validate against v1.0.0.",
+        "preview_render": "Produces a reviewable 1080x1920 preview MP4.",
+        "final_render": "Produces a final MP4, captions, thumbnail, and render manifest."
+      }
+    },
+    {
+      "id": "vertical-brand-stress",
+      "profile": "Vertical or near-vertical source with branded lower thirds",
+      "minimum_characteristics": {
+        "duration_seconds": { "minimum": 180, "maximum": 480 },
+        "video": "vertical or near-vertical with readable on-screen text",
+        "audio": "speech throughout"
+      },
+      "approval": {
+        "status": "unavailable",
+        "reason": "No source has been approved. Register a reproducible source URL, documented license or testing permission, probe data, and SHA-256 checksum before enabling this media test."
+      },
+      "provenance": null,
+      "rights": null,
+      "technical_metadata": null,
+      "checksum_sha256": null,
+      "expected_outcomes": {
+        "probe": "Reports source streams, dimensions, orientation, and duration.",
+        "transcription": "Produces word timestamps for speech.",
+        "source_signals": "Persists on-screen-text and visual-signal data.",
+        "candidate_count": { "minimum": 3, "maximum": 5 },
+        "edl_validation": "Candidate EDLs validate against v1.0.0.",
+        "preview_render": "Produces a reviewable 1080x1920 preview MP4 without caption-overlay collisions.",
+        "final_render": "Produces a final MP4, captions, thumbnail, and render manifest."
+      }
+    }
+  ]
+}

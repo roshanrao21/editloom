@@ -10,7 +10,7 @@ An EDL has the following stable sections:
 
 - identity and lineage: `schema_version`, IDs, version, parent version, author, and creation time;
 - source: a managed asset reference, SHA-256 checksum, timebase, and source duration;
-- output: fixed V1 vertical MP4 settings and the safe-area preset;
+- output: fixed V1 1080×1920 H.264/AAC MP4 settings at 30 fps and the safe-area preset;
 - video: ordered source trims and optional normalized reframe keyframes;
 - captions: word-timed display cues and a named style template;
 - overlays: title and B-roll placements, each with an explicit time range;
@@ -40,4 +40,8 @@ An EDL has the following stable sections:
 3. Apply timing, ordering, safe-area, attribution, and renderer-capability checks.
 4. Persist the validation result with the schema ID and renderer capability version.
 
-The application/workspace task will add an AJV-based validation command and execute this fixture in automated tests. This contract deliberately stays dependency-free until that workspace baseline exists.
+The `@editloom/edl` workspace package validates this schema with AJV and executes the minimal fixture in automated tests. Its `validateEdl(edl)` function returns `valid`, `schemaId`, `schemaVersion`, and structured validation errors; a render job must persist that result before it is queued.
+
+## V1 output rate
+
+V1 supports a single output frame rate: **30 fps**. The normative schema rejects 24 fps and 25 fps EDLs. AJV fixture validation protects that constraint in the application workspace.
